@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1721885771 source:c:\sandeep\solar\main.c
+	<GL/glut.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1721885771 source:c:\sandeep\is\2nd year\semester 1\is2107 graphics and visualization\opengl submissions\solar\main.c
+	<GL/glut.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+

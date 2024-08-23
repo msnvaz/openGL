@@ -1,0 +1,116 @@
+#include <GL/glut.h>
+
+GLfloat xRotated, yRotated, zRotated;
+GLdouble size =1;
+float xpos=0.0;
+float ypos=0.0;
+float zpos=0.0;
+int x=1;
+float r,g,b;
+void display(void);
+void reshape(int x, int y);
+void idle(void)
+
+{
+    xRotated += 0.01;
+    yRotated += 0.01;
+    zRotated += 0.01;
+    r=(rand()%9/8);
+    g=(rand()%9/8);
+    b=(rand()%9/8);
+
+    if (xpos>-1 && x==1)
+    {
+        xpos=-1;
+        ypos=-1;
+    }
+
+    else
+    {
+        x=0;
+
+        if(xpos<=1)
+        {
+           xpos+=0.001;
+           ypos+=0.001;
+        }
+        else
+        {
+            xpos=1;
+            ypos=1;
+            x=1;
+        }
+    }
+
+    glutPostRedisplay();
+
+}
+
+void display(void)
+{
+    glMatrixMode(GL_MODELVIEW);
+    //Clear the drawing buffer
+    glClear(GL_COLOR_BUFFER_BIT);
+    //Clear the identity matrix
+    glLoadIdentity();
+    //translate the draw by z = -5.0
+    //Note this when you decrease z like -8.0 the drawing will looks far, or smaller
+    glTranslatef(xpos,ypos, -5.0);
+    //Red color used to draw
+    glColor3f(r,g,b);
+    //Changing in transformation matrix
+    //rotation about X axis
+    //glRotatef(xRotated, 1.0,0.0,0.0);
+    //rotation about Y axis
+    glRotatef(yRotated, 0.0,1.0,0.0);
+    //rotation about z axis
+    //glRotatef(zRotated, 0.0,0.0,1.0);
+
+    //scaling transformation
+    glScalef(1.0,1.0,1.0);
+
+    //built-in (glut library) function , draw you a pot
+    glutWireTeapot(size);
+    //glutSolidTeapot(size);
+
+    //Flush buffers to screen
+    glFlush();
+    //swap buffers called because we are using double buffering
+    glutSwapBuffers();
+
+}
+
+void reshape (int x, int y)
+{
+    if (y == 0 || x == 0) return;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(39.0,(GLdouble)x/(GLdouble)y,0.0,-4.0);
+    glMatrixMode(GL_MODELVIEW);
+    glViewport(0,0,x,y); //Use the whole window for rendering
+
+}
+
+int main (int argc, char **argv)
+{
+    glutInit(&argc, argv);
+    glutInitWindowSize(640,480);
+    glutCreateWindow("Teapot");
+          glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    xRotated =   yRotated =  zRotated =  30.0;
+    xRotated = 43;
+    yRotated = 50;
+
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutIdleFunc(idle);
+    glutMainLoop();
+    return 0;
+}
+
+
+
+
+
+
+
