@@ -200,11 +200,11 @@ void flowerVase(float x, float y, float z, float s) {
     glVertex2f(x-0.045, y+0.14f);
     glEnd();
     //middleFlower
-    drawCircle(x, y+0.225f, 1.0f, 0.03, 1.0, 0.8, 0.816);
+    drawCircle(x, y+0.225f, 1.0f, 0.025, 1.0, 0.8, 0.816);
     //rightFlower
-    drawCircle(x+0.045, y+0.17f, 1.0f, 0.03, 0.5, 0.0, 1.0);
+    drawCircle(x+0.045, y+0.17f, 1.0f, 0.025, 0.5, 0.0, 1.0);
     //leftFlower
-    drawCircle(x-0.045, y+0.14f, 1.0f, 0.03, 1.0, 0.0, 0.0);
+    drawCircle(x-0.045, y+0.14f, 1.0f, 0.025, 1.0, 0.0, 0.0);
     glPopMatrix();
 }
 
