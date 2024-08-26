@@ -3,7 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 
-
 GLfloat R = 0;//horse tail
 GLfloat S = 1.0;//parameter for left flower vases and right fish scale
 GLfloat sunm = 0.0;//Sun movement
@@ -14,78 +13,6 @@ GLfloat w = 0.0;//paddle
 GLfloat b = 0.0;//boat
 GLfloat B = 1.0;//parameter for big right flower vase
 GLfloat r = 1.0;//parameter for right flower vases
-
-//keyBoardFunctions
-void keyPress(unsigned char key, int x, int y){
-    switch (key){
-        case 'r':
-            Q = 0.0f;
-            f = f - 0.025;
-            R = R - 5;
-            if (R<-360){
-                R = 0;
-            }
-            glutPostRedisplay();
-            break;
-        case 'u':
-            S = S + 0.05;
-            glutPostRedisplay();
-            break;
-        case ' ':
-            B = B - 0.05;
-            if (B< 0){
-                B = 1.0;
-            }
-            sunm = sunm - 0.05;
-            if(sunm<-2.0){
-                sunm = 0.0;
-            }
-            glutPostRedisplay();
-            break;
-        case 'f':
-            Q = 0.0f;
-            f = f - 0.05;
-            glutPostRedisplay();
-            break;
-        case 'q':
-            Q = 180.0f;
-            q = q + 0.05;
-            glutPostRedisplay();
-            break;
-        case 'w':
-            b = b + 0.005;
-            w = w - 0.5;
-            if (w<-30) {
-                w = 0.0;
-            }
-            glutPostRedisplay();
-            break;
-        case 'b':
-            b = b + 0.005;
-            glutPostRedisplay();
-            break;
-        case 's':
-            r = r - 0.05;
-            if (r < 0){
-                r = 0.0;
-            }
-            glutPostRedisplay();
-            break;
-        case 'z'://Reset
-            R = 0;
-            S = 1.0;
-            sunm = 0.0;
-            f = 0.0;
-            q = 0.0;
-            Q = 0.0;
-            w = 0.0;
-            b = 0.0;
-            r = 1.0;
-            B = 1.0;
-            glutPostRedisplay();
-            break;
-    }
-}
 
 void bg(){
     glBegin(GL_QUADS);
@@ -307,45 +234,64 @@ void yellowfish(float x,float y,float z){
     fish(x,y,z,1.0f, 1.0f, 0.0f,1.0f, 1.0f, 1.0f,(S/2)+0.5);
 }
 
+void flower(float x,float y,float z){
+    glPushMatrix();
+    drawSphere(x+0.02, y, 1.0f, 0.015, 0.5, 0.0, 1.0);
+    drawSphere(x, y-0.02, 1.0f, 0.015, 1.0, 0.0, 0.0);
+    drawSphere(x-0.02, y, 1.0f, 0.015, 0.5, 0.0, 1.0);
+    drawSphere(x, y+0.02, 1.0f, 0.015, 1.0, 0.0, 0.0);
+
+    drawSphere(x, y, 1, 0.015, 1.0, 0.8, 0.816);
+    glPopMatrix();
+}
+
 void Vase(float x, float y, float z, float scale) {
     glPushMatrix();
     glTranslatef(x,y,z);
     glScalef(scale,scale,scale);
     glTranslatef(-x,-y,-z);
-    //vase
-    glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.8f, 0.9f);
-    glVertex3f(x-0.025f, y+0.06f, z);
-    glVertex3f(x+0.025f, y+0.06f, z);
-    glVertex3f(x+0.015f, y, z);
-    glVertex3f(x-0.015f, y, z);
-    glEnd();
 
     //middleStem
-    glLineWidth(3.0f);
+    glLineWidth(4.0f);
     glBegin(GL_LINES);
+    glColor3f(0.0f, 0.5f, 0.0f);
     glVertex2f(x, y);
     glVertex2f(x, y+0.225f);
     glEnd();
-    //rightStem
+
+    //rStem
     glBegin(GL_LINES);
     glVertex2f(x, y+0.14f);
     glVertex2f(x+0.045, y+0.17f);
     glEnd();
-    //leftStem
+
+    //lStem
     glBegin(GL_LINES);
     glVertex2f(x, y+0.1f);
     glVertex2f(x-0.045, y+0.14f);
     glEnd();
+
+    //vase
+    glBegin(GL_QUADS);
+    glColor3f(0.71f, 0.40f, 0.11f);
+    glVertex3f(x-0.03f, y+0.06f, z);
+    glVertex3f(x+0.03f, y+0.06f, z);
+    glVertex3f(x+0.02f, y, z);
+    glVertex3f(x-0.02f, y, z);
+    glEnd();
+
     //middleFlower
-    drawSphere(x, y+0.225f, 1.0f, 0.025, 1.0, 0.8, 0.816);
+    flower(x, y+0.225f, z);
+
     //rightFlower
-    drawSphere(x+0.045, y+0.17f, 1.0f, 0.025, 0.5, 0.0, 1.0);
+    flower(x+0.045, y+0.17f, z);
+
     //leftFlower
-    drawSphere(x-0.045, y+0.14f, 1.0f, 0.025, 1.0, 0.0, 0.0);
+    flower(x-0.045, y+0.14f, z);
 
     glPopMatrix();
 }
+
 
 void Vase1(float x, float y, float z){
     Vase(x,y,z,S);
@@ -515,7 +461,97 @@ void horse(float x,float y,float z){
 glPopMatrix();
 }
 
-void createScene() {
+//keyBoardFunctions
+void keyPress(unsigned char key, int x, int y){
+    switch (key){
+         case 'f':
+            Q = 0.0f;
+            f = f - 0.05;
+            glutPostRedisplay();
+
+            break;
+
+        case 'r':
+            Q = 0.0f;
+            f = f - 0.015;
+            R = R - 5;
+            if (R<-360){
+                R = 0;
+            }
+            glutPostRedisplay();
+
+            break;
+
+        case 'q':
+            Q = 180.0f;
+            q = q + 0.05;
+            glutPostRedisplay();
+
+            break;
+
+        case 'b':
+            b = b + 0.005;
+            glutPostRedisplay();
+
+            break;
+
+        case 'w':
+            b = b + 0.005;
+            w = w - 0.5;
+            if (w<-30) {
+                w = 0.0;
+            }
+            glutPostRedisplay();
+
+            break;
+
+        case 'u':
+            S = S + 0.05;
+            glutPostRedisplay();
+
+            break;
+
+        case 's':
+            r = r - 0.05;
+            if (r < 0){
+                r = 0.0;
+            }
+            glutPostRedisplay();
+
+            break;
+
+        case ' ':
+            B = B - 0.05;
+            if (B< 0){
+                B = 1.0;
+            }
+            sunm = sunm - 0.05;
+            if(sunm<-2.0){
+                sunm = 0.0;
+            }
+            glutPostRedisplay();
+
+            break;
+
+        //Reset
+        case 'z':
+            R = 0;
+            S = 1.0;
+            sunm = 0.0;
+            f = 0.0;
+            q = 0.0;
+            Q = 0.0;
+            w = 0.0;
+            b = 0.0;
+            r = 1.0;
+            B = 1.0;
+            glutPostRedisplay();
+
+            break;
+    }
+}
+
+void Village() {
 
     glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -572,8 +608,17 @@ int main(int argc, char** argv) {
     glutInitWindowSize(1000,700);
     glutInitWindowPosition(100, 10);
     glutCreateWindow("My Village");
+
+    printf("Press \"f\" to move the horse");
+    printf("Press \"r\" to rotate the tail");
+    printf("Press \"q\" to rotate the horse");
+    printf("Press \"b\" to move the boat");
+    printf("Press \"w\" to move the bat");
+    printf("Press \"u\" to scale up flower pots and fish");
+    printf("Press \"s\" to scale down");
+    printf("Press \" \" to move the sun");
     printf("Press \"z\" to reset the scene");
-    glutDisplayFunc(createScene);
+    glutDisplayFunc(Village);
     glutKeyboardFunc(keyPress);
     glutMainLoop();
 

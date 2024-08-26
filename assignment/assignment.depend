@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1724504195 source:c:\sandeep\is\2nd year\semester 1\is2107 graphics and visualization\assignment\main.c
+1724649862 source:c:\sandeep\is\2nd year\semester 1\is2107 graphics and visualization\assignment\main.c
 	<GL/glu.h>
 	<GL/glut.h>
 	<math.h>
