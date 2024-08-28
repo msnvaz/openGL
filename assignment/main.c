@@ -13,6 +13,7 @@ GLfloat w = 0.0;//paddle
 GLfloat b = 0.0;//boat
 GLfloat B = 1.0;//parameter for big right flower vase
 GLfloat r = 1.0;//parameter for right flower vases
+GLfloat W =0.0;
 
 void bg(){
     glBegin(GL_QUADS);
@@ -28,32 +29,30 @@ void bg(){
 
 }
 void createTree1(float x,float y,float z){
-    //top
-glBegin(GL_TRIANGLES);
-
-    glColor3f(0.0f, 0.9f, 0.0f);
-    glVertex3f(x, y, z);
-    glColor3f(0.0f, 0.75f, 0.0f);
-    glVertex3f(x - 0.15f, y - 0.3f, z);
-    glVertex3f(x + 0.15f, y - 0.3f, z);
+    //bottom
+    glBegin(GL_TRIANGLES);
+    glColor3f(0.0f, 0.8f, 0.0f);
+    glVertex3f(x, y-0.35f, z);
+    glColor3f(0.0f, 0.8, 0.0f);
+    glVertex3f(x - 0.25f, y - 0.7f, z);
+    glVertex3f(x + 0.25f, y - 0.7f, z);
     glEnd();
 
     //middle
     glBegin(GL_TRIANGLES);
-    glColor3f(0.0f, 0.825f, 0.0f);
+    glColor3f(0.0f, 0.8f, 0.0f);
     glVertex3f(x, y-0.15f, z);
-    glColor3f(0.0f, 0.725f, 0.0f);
     glVertex3f(x - 0.2f, y - 0.5f, z);
     glVertex3f(x + 0.2f, y - 0.5f, z);
     glEnd();
 
-    //bottom
+    //top
     glBegin(GL_TRIANGLES);
-    glColor3f(0.0f, 0.775f, 0.0f);
-    glVertex3f(x, y-0.35f, z);
-    glColor3f(0.0f, 0.7f, 0.0f);
-    glVertex3f(x - 0.25f, y - 0.7f, z);
-    glVertex3f(x + 0.25f, y - 0.7f, z);
+    glColor3f(0,0.8,0);
+    glVertex3f(x, y, z);
+    glColor3f(0.0f, 0.8f, 0.0f);
+    glVertex3f(x - 0.15f, y - 0.3f, z);
+    glVertex3f(x + 0.15f, y - 0.3f, z);
     glEnd();
 
     //bark
@@ -77,7 +76,7 @@ void drawSphere(float x, float y, float z, float r,float R,float G,float B) {
 void createWater()
 {
     glBegin(GL_QUADS);
-    glColor3f(0.0f, 0.0f, 0.9f);
+    glColor3f(0.0f, 0.0f, 0.55f);
     glVertex3f(-1.0,-0.6,0.0);
     glVertex3f(1.0,-0.6,0.0);
     glVertex3f(1.0,-1.0,0.0);
@@ -105,7 +104,7 @@ void createGrass()
 void createHouse(float x, float y, float z, float R, float G, float B) {
     //roof
     glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(0.0f, 0.0f, 0.0f);
     glVertex3f(x-0.175f, y+0.5f, z);
     glVertex3f(x+0.175f, y+0.5f, z);
     glVertex3f(x+0.225f, y+0.4f, z);
@@ -123,7 +122,7 @@ void createHouse(float x, float y, float z, float R, float G, float B) {
 
     //door
     glBegin(GL_QUADS);
-    glColor3f(1.0f, 1.0f, 0.0f);
+    glColor3f(0.55f, 0.27f, 0.07f);
     glVertex3f(x-0.055f, y+0.3f, z);
     glVertex3f(x+0.055f, y+0.3f, z);
     glVertex3f(x+0.055f, y+0.1, z);
@@ -561,12 +560,12 @@ void Village() {
     createWater();
     createGrass();
     //purplehouse
-    createHouse(0.4,-0.3,0.0,0.5, 0.0, 1.0);
+    createHouse(0.4,-0.3,0.0,0.87f, 0.63f, 0.87f);
     createTree2(-0.75,0.9,0);
     createTree1(+0.85,0.8,0);
     createTree2(+0.65,0.65,0);
-    //pink house
-    createHouse(-0.5,-0.3,0.0,1.0, 0.75, 0.8);
+    //white house
+    createHouse(-0.5,-0.25,0.0,1.0, 1,1);
     purplefish(-0.9,-0.8,0);
 
     glPushMatrix();
@@ -588,9 +587,9 @@ void Village() {
     glTranslatef(0.9,-0.5,1.0);
     glScalef(1,1,0);
     glTranslatef(-0.9,0.5,1.0);
-    Vase(0.9,-0.5,1.0,B+r);
+    Vase(0.85,-0.5,1.0,B+r);
     glPopMatrix();
-    Vase(0.7,-0.5,1.0,r);
+    Vase(0.65,-0.5,1.0,r);
 
     horse(0.2+f+q,-0.25,0);
 
@@ -605,19 +604,19 @@ int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(1000,700);
+    glutInitWindowSize(1100,750);
     glutInitWindowPosition(100, 10);
     glutCreateWindow("My Village");
 
-    printf("Press \"f\" to move the horse");
-    printf("Press \"r\" to rotate the tail");
-    printf("Press \"q\" to rotate the horse");
-    printf("Press \"b\" to move the boat");
-    printf("Press \"w\" to move the bat");
-    printf("Press \"u\" to scale up flower pots and fish");
-    printf("Press \"s\" to scale down");
-    printf("Press \" \" to move the sun");
-    printf("Press \"z\" to reset the scene");
+    printf("Press \"f\" to move the horse\n");
+    printf("Press \"r\" to rotate the tail\n");
+    printf("Press \"q\" to rotate the horse\n");
+    printf("Press \"b\" to move the boat\n");
+    printf("Press \"w\" to move the bat\n");
+    printf("Press \"u\" to scale up flower pots and fish\n");
+    printf("Press \"s\" to scale down\n");
+    printf("Press \" \" to move the sun\n");
+    printf("Press \"z\" to reset the scene\n");
     glutDisplayFunc(Village);
     glutKeyboardFunc(keyPress);
     glutMainLoop();
